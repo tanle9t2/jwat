@@ -13,13 +13,12 @@ import org.springframework.stereotype.Repository;
 public interface InverterRepository extends JpaRepository<Inverter, Integer> {
 
     @Query("""
-               
                 FROM Inverter i
                 WHERE (:inverterName IS NULL OR i.inverterName = :inverterName)
                 AND (:inverterCode IS NULL OR i.inverterCode = :inverterCode)
                 AND (:isFlag IS NULL OR i.isFlag = :isFlag)
             """)
     Page<Inverter> findAllWithFilter(@Param("inverterName") String inverterName
-            , @Param("inverterCode") String inverterCode
+            , @Param("inverterCode") String code
             , @Param("isFlag") Boolean isFlag, Pageable pageable);
 }

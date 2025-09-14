@@ -41,11 +41,11 @@ public class InverterServiceImpl implements InverterService {
                 .map(i -> inverterMapper.convertToResponse(i))
                 .collect(Collectors.toList());
 
-
         return PageResponse.<InverterResponse>builder()
                 .content(data)
                 .last(inverterPage.isLast())
                 .size(inverterPage.getSize())
+                .page(page)
                 .totalElements(inverterPage.getTotalElements())
                 .totalPages(inverterPage.getTotalPages())
                 .build();
@@ -73,11 +73,12 @@ public class InverterServiceImpl implements InverterService {
     @Override
     @Transactional
     public MessageResponse createInverter(InverterRequest request) {
-
         Inverter inverter = inverterMapper.convertToEntity(request);
+
         inverterRepository.save(inverter);
         inverter.setUpdatedAt(LocalDateTime.now());
         inverterRepository.flush();
+
         return MessageResponse.builder()
                 .status(HttpStatus.CREATED)
                 .message(Message.CREATE_SUCCESS.format(inverter.getClass().getSimpleName()))
