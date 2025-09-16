@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: jwat-server
   servlet:
@@ -22,12 +24,20 @@ server:
   port: 8080
   servlet:
     context-path: /jwat-server
+
 app:
   cors:
     allowed-origins: http://localhost:5173
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET_KEY}
+      expiration: 86400 # a day
+      refresh-token:
+        expiration: 604800 # a week
 
 
 logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
+

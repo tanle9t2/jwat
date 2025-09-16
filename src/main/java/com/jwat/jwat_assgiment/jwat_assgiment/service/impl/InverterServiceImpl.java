@@ -74,9 +74,9 @@ public class InverterServiceImpl implements InverterService {
     @Transactional
     public MessageResponse createInverter(InverterRequest request) {
         Inverter inverter = inverterMapper.convertToEntity(request);
-
-        inverterRepository.save(inverter);
         inverter.setUpdatedAt(LocalDateTime.now());
+        inverterRepository.save(inverter);
+
         inverterRepository.flush();
 
         return MessageResponse.builder()
